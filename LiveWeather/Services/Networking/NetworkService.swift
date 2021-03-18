@@ -7,7 +7,7 @@
 //
 
 import Foundation
-typealias DataDownloadedBlock = (Data) throws -> Void
+typealias DataDownloadedBlock = (Data) -> Void
 typealias NoDataAvailableBlock = () -> Void
 typealias NetworkErrorBlock = (Error) -> Void
 
