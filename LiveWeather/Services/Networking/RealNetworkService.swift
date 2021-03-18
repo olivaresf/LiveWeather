@@ -35,7 +35,8 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
             // However, we can easily call `errorBlock` or `noDataBlock` directly.
 			do {
 				if err != nil {
-					throw err!
+                    print(err!)
+                    errorBlock(err!)
 				}
 
 				if let httpResponse = urlResp as? HTTPURLResponse {
@@ -54,9 +55,6 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
                         errorBlock(error)
 					}
 				}
-			} catch let error {
-				print(error)
-				errorBlock(error)
 			}
 		}
 
