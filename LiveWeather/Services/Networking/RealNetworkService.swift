@@ -33,29 +33,27 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
             // This do/catch block was only used to catch the `dataDownloadedBlock` thrown error.
             // I can see that it' was also useful to throw networing errors (first if) and http status code errors (default case).
             // However, we can easily call `errorBlock` or `noDataBlock` directly.
-			do {
-				if err != nil {
-                    print(err!)
-                    errorBlock(err!)
-				}
-
-				if let httpResponse = urlResp as? HTTPURLResponse {
-					switch httpResponse.statusCode {
-					case 200:
-						guard let dataDownloaded = data
-						else {
-							noDataBlock()
-							return
-						}
-
-						try dataDownloadedBlock(dataDownloaded)
-					default:
-                        let error = NetworkError.invalidRequest
-                        print(error.rawValue)
-                        errorBlock(error)
-					}
-				}
-			}
+            if err != nil {
+                print(err!)
+                errorBlock(err!)
+            }
+            
+            if let httpResponse = urlResp as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                case 200:
+                    guard let dataDownloaded = data
+                    else {
+                        noDataBlock()
+                        return
+                    }
+                    
+                    dataDownloadedBlock(dataDownloaded)
+                default:
+                    let error = NetworkError.invalidRequest
+                    print(error.rawValue)
+                    errorBlock(error)
+                }
+            }
 		}
 
 		dataTask.resume()
