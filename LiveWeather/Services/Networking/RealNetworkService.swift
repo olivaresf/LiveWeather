@@ -30,6 +30,9 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
 		}
 
 		let dataTask = self.session.dataTask(with: urlReq) { (data, urlResp, err) in
+            // This do/catch block was only used to catch the `dataDownloadedBlock` thrown error.
+            // I can see that it' was also useful to throw networing errors (first if) and http status code errors (default case).
+            // However, we can easily call `errorBlock` or `noDataBlock` directly.
 			do {
 				if err != nil {
 					throw err!
