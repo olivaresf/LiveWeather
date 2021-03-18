@@ -49,12 +49,11 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
 
 						try dataDownloadedBlock(dataDownloaded)
 					default:
-						throw NetworkError.invalidRequest
+                        let error = NetworkError.invalidRequest
+                        print(error.rawValue)
+                        errorBlock(error)
 					}
 				}
-			} catch let error as NetworkError {
-				print(error.rawValue)
-				errorBlock(error)
 			} catch let error {
 				print(error)
 				errorBlock(error)
