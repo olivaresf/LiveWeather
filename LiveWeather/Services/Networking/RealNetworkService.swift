@@ -30,30 +30,30 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
 		}
 
 		let dataTask = self.session.dataTask(with: urlReq) { (data, urlResp, err) in
-            
+
             guard err == nil else {
                 print(err!)
                 errorBlock(err!)
                 return
             }
-            
+
             guard let httpResponse = urlResp as? HTTPURLResponse else {
                 #warning("We aren't handling this use case.")
                 return
             }
-            
+
             guard httpResponse.statusCode == 200 else {
                 let error = NetworkError.invalidRequest
                 print(error.rawValue)
                 errorBlock(error)
                 return
             }
-            
+
             guard let dataDownloaded = data else {
                 noDataBlock()
                 return
             }
-            
+
             dataDownloadedBlock(dataDownloaded)
 		}
 
