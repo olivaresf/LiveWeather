@@ -42,9 +42,8 @@ class LocationWeatherView: UIView {
     lazy var segmentControl: UISegmentedControl = UISegmentedControl()
 
 	lazy var vStack: UIStackView = UIStackView(arrangedSubviews:
-		[self.selectedLocationTitle, self.hStackForTimeStamp, self.hStackForWeatherState,
-		self.hStackForTemperature, self.hStackForHumidity, self.hStackForWindSpeed,
-		self.segmentControl])
+		[self.segmentControl, self.selectedLocationTitle, self.hStackForTimeStamp, self.hStackForWeatherState,
+		self.hStackForTemperature, self.hStackForHumidity, self.hStackForWindSpeed])
 
     var segmentTitles: [String] = []
 	weak var delegate: LocationWeatherViewDelegate?
