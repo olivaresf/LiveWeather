@@ -31,27 +31,33 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
 
 		let dataTask = self.session.dataTask(with: urlReq) { (data, urlResp, err) in
             
-            guard error == nil else {
+            guard err == nil else {
                 print(err!)
                 errorBlock(err!)
+                return
             }
             
-            if let httpResponse = urlResp as? HTTPURLResponse {
-                switch httpResponse.statusCode {
-                case 200:
-                    guard let dataDownloaded = data
-                    else {
-                        noDataBlock()
-                        return
-                    }
-                    
-                    dataDownloadedBlock(dataDownloaded)
-                default:
-                    let error = NetworkError.invalidRequest
-                    print(error.rawValue)
-                    errorBlock(error)
-                }
+            guard let httpResponse = urlResp as? HTTPURLResponse else {
+                #warning("We aren't handling this use case.")
+                return
             }
+            
+            
+            switch httpResponse.statusCode {
+            case 200:
+                guard let dataDownloaded = data
+                else {
+                    noDataBlock()
+                    return
+                }
+                
+                dataDownloadedBlock(dataDownloaded)
+            default:
+                let error = NetworkError.invalidRequest
+                print(error.rawValue)
+                errorBlock(error)
+            }
+            
 		}
 
 		dataTask.resume()
