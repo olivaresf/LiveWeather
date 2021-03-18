@@ -42,22 +42,19 @@ class RealNetworkService: NSObject, URLSessionDelegate, URLSessionTaskDelegate, 
                 return
             }
             
-            
-            switch httpResponse.statusCode {
-            case 200:
-                guard let dataDownloaded = data
-                else {
-                    noDataBlock()
-                    return
-                }
-                
-                dataDownloadedBlock(dataDownloaded)
-            default:
+            guard httpResponse.statusCode == 200 else {
                 let error = NetworkError.invalidRequest
                 print(error.rawValue)
                 errorBlock(error)
+                return
             }
             
+            guard let dataDownloaded = data else {
+                noDataBlock()
+                return
+            }
+            
+            dataDownloadedBlock(dataDownloaded)
 		}
 
 		dataTask.resume()
