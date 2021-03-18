@@ -13,15 +13,15 @@ class DummyNetworkService: NSObject, NetworkService {
 					dataDownloadedBlock: @escaping DataDownloadedBlock,
 					noDataBlock: @escaping NoDataAvailableBlock,
 					errorBlock: @escaping NetworkErrorBlock) {
-        
-            if entityId.isEmpty {
-                noDataBlock()
+
+        if entityId.isEmpty {
+            noDataBlock()
+        } else {
+            if let jsonData = RealFileService().dataFromJSONFile(filename: "LocationWeatherTestJSON") {
+                dataDownloadedBlock(jsonData)
             } else {
-                if let jsonData = RealFileService().dataFromJSONFile(filename: "LocationWeatherTestJSON") {
-                    dataDownloadedBlock(jsonData)
-                } else {
-                    noDataBlock()
-                }
+                noDataBlock()
             }
+        }
     }
 }
